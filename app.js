@@ -20,10 +20,12 @@ mongoose.connection.on('error', (err)=>{
 
 const app = express();
 
+
 const users = require('./routes/users');
+const books = require('./routes/books');
 
 // port Number
-const port = process.env.PORT || 8080;
+const port = 3000; //process.env.PORT || 8080;
 
 app.use(cors());
 
@@ -38,7 +40,10 @@ app.use(passport.session());
 
 require('./config/passport')(passport);
 
-app.use('/users', users)
+// routing 
+app.use('/users', users);
+app.use('/books', books);
+
 // Index Route
 app.get('/', (req, res)=>{
     res.send('Invalid Endpoint');
