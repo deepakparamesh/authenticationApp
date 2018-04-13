@@ -22,7 +22,6 @@ const app = express();
 
 
 const users = require('./routes/users');
-const books = require('./routes/books');
 
 // port Number
 const port = 3000; //process.env.PORT || 8080;
@@ -42,7 +41,6 @@ require('./config/passport')(passport);
 
 // routing 
 app.use('/users', users);
-app.use('/books', books);
 
 // Index Route
 app.get('/', (req, res)=>{
