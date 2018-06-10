@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../../services/auth.service';
+import { AuthenticationService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 import { Http, Response, Headers } from '@angular/http';
 
@@ -15,11 +15,11 @@ export class ProfileComponent implements OnInit {
   profileObj : Object;
   private headers = new Headers({'Content-Type': 'application/json'});
 
-  constructor(private authService:AuthService, private router:Router,
+  constructor(private authenticationService:AuthenticationService, private router:Router,
               private http : Http) { }
 
   ngOnInit() {
-    this.authService.getProfile().subscribe(profile => {
+    this.authenticationService.getProfile().subscribe(profile => {
       this.user = profile.user;
     },
      err => {

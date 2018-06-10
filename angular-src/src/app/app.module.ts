@@ -13,9 +13,22 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { ProfileComponent } from './components/profile/profile.component';
 
 import { ValidateService } from './services/validate.service';
-import { AuthService } from './services/auth.service';
+import { AuthenticationService } from './services/auth.service';
 import { AuthGuard } from './guards/auth.guard';
 import { FlashMessagesModule } from 'angular2-flash-messages';
+import { Angular2SocialLoginModule } from "angular2-social-login";
+
+let providers = {
+  "google" : {
+    "clientId" : "913299848250-nk9962ssotgogd85558q00mq75qlrbov.apps.googleusercontent.com"
+  },
+  "facebook" : {
+    "clientId" : ""
+  },
+  "linkedin" : {
+    "clientId" : ""
+  }
+};
 
 const appRoutes: Routes = [
   {path:'', component: HomeComponent},
@@ -39,10 +52,17 @@ const appRoutes: Routes = [
     FormsModule,
     HttpModule,
     RouterModule.forRoot(appRoutes),
-    FlashMessagesModule.forRoot()
+    FlashMessagesModule.forRoot(),
+    Angular2SocialLoginModule
   ],
-  providers: [ValidateService , AuthService, AuthGuard],
+
+  providers: [ValidateService , AuthenticationService, AuthGuard],
   bootstrap: [AppComponent],
 
 })
-export class AppModule { }
+export class AppModule { 
+  constructor (){}
+}
+
+Angular2SocialLoginModule.loadProvidersScripts(providers);
+

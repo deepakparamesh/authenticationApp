@@ -4,7 +4,7 @@ import 'rxjs/add/operator/map';
 import { tokenNotExpired } from 'angular2-jwt';
 
 @Injectable()
-export class AuthService {
+export class AuthenticationService {
   authToken: any;
   user: any;
 
@@ -21,8 +21,10 @@ export class AuthService {
   authenticateUser(user) {
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
-    return this.http.post('http://localhost:3000/users/authenticate', user, {headers: headers})
+    let result = this.http.post('http://localhost:3000/users/authenticate', user, {headers: headers})
       .map(res => res.json());
+    console.log(result);
+    return result; 
   }
 
   getProfile() {
