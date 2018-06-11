@@ -1,56 +1,51 @@
 const express = require('express');
-const path = require('path');
 const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
+const config = require('./config/database');
+const path = require('path');
 const cors = require('cors');
 const passport = require('passport');
-const mongoose = require('mongoose');
-const config = require('./config/database'); 
 
-//connect to database
-mongoose.connect(config.database);
-
-//on connections 
-mongoose.connection.on('connected', ()=>{
-    console.log('connected to database ' + config.database);
-});
-
-mongoose.connection.on('error', (err)=>{
-    console.log('database error' + err);
-});
-
-const app = express();
-
-
-const users = require('./routes/users');
-
-// port Number
-const port = 3000; //process.env.PORT || 8080;
+const app =  express();
+const PORT = 5000;
 
 app.use(cors());
-
-// set static folder
-app.use(express.static(path.join(__dirname, 'public')));
-
-//body parser middleware
+app.use(express.static(path.join(__dirname, 'public')))
 app.use(bodyParser.json());
-
 app.use(passport.initialize());
 app.use(passport.session());
 
+// declaring routes path
+const users = require('./routes/users');
+const admins = require('./routes/admins');
+
+
 require('./config/passport')(passport);
 
-// routing 
+//using routes
 app.use('/users', users);
+app.use('/admins', admins);
 
-// Index Route
 app.get('/', (req, res)=>{
-    res.send('Invalid Endpoint');
+    res.send('Try going to localhost:3000/home');
 });
 
 app.get('*', (req, res)=>{
-    res.sendFile(path.join(__dirname), 'public/index.html')
-})
-
-app.listen(port, ()=>{
-    console.log('server started on port '+ port);
+    res.sendFile(path.join(__dirname), 'public/index.html');
 });
+
+//connection to the server
+app.listen(PORT, ()=>{
+    console.log( `PAL started in the port ${PORT}` );
+});
+
+//connection to mongoDB 
+mongoose.connect(config.database);
+
+mongoose.connection.on('connected', ()=>{
+    console.log('connected to database' + config.database);
+});
+
+mongoose.connection.on('error', (error)=>{
+    console.log(`error in connection with mongodb ${error}` );
+})

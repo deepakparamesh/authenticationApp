@@ -2,47 +2,51 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
-import { RouterModule, Routes} from '@angular/router'
+import { AppRoutingModule } from './app-routing.module';
 
 import { AppComponent } from './app.component';
-import { NavbarComponent } from './components/navbar/navbar.component';
-import { LoginComponent } from './components/login/login.component';
-import { HomeComponent } from './components/home/home.component';
-import { RegisterComponent } from './components/register/register.component';
-import { DashboardComponent } from './components/dashboard/dashboard.component';
-import { ProfileComponent } from './components/profile/profile.component';
+import { NavbarComponent } from './component-user/navbar/navbar.component';
+import { HomeComponent } from './component-user/home/home.component';
+import { RegisterComponent } from './component-user/register/register.component';
+import { LoginComponent } from './component-user/login/login.component';
+import { DashboardComponent } from './component-user/dashboard/dashboard.component';
+import { ProfileComponent } from './component-user/profile/profile.component';
 
 import { ValidateService } from './services/validate.service';
-import { AuthService } from './services/auth.service';
-import { AuthGuard } from './guards/auth.guard';
-import {FlashMessagesModule} from 'angular2-flash-messages';
+import { FlashMessagesModule  } from 'angular2-flash-messages';
+import { AuthenticationService } from './services/auth.service';
+import { AuthGuard } from './gaurds/auth.gaurd';
+import { AdminGuard } from './gaurds/admin.gaurd';
+import { AdminLoginComponent } from './component-admin/admin-login/admin-login.component';
+import { AdminSettingsComponent } from './component-admin/admin-settings/admin-settings.component';
+import { AdminNavbarComponent } from './component-admin/admin-navbar/admin-navbar.component';
+import { AdminDashboardComponent } from './component-admin/admin-dashboard/admin-dashboard.component';
+import { AdminHomeComponent } from './component-admin/admin-home/admin-home.component';
 
-const appRoutes: Routes = [
-  {path:'', component: HomeComponent},
-  {path:'register', component: RegisterComponent},
-  {path:'login', component: LoginComponent},
-  {path:'dashboard', component: DashboardComponent, canActivate: [AuthGuard]},
-  {path:'profile', component: ProfileComponent, canActivate: [AuthGuard]},
-]
 @NgModule({
   declarations: [
     AppComponent,
     NavbarComponent,
-    LoginComponent,
     HomeComponent,
     RegisterComponent,
+    LoginComponent,
     DashboardComponent,
-    ProfileComponent
+    ProfileComponent,
+    AdminLoginComponent,
+    AdminSettingsComponent,
+    AdminNavbarComponent,
+    AdminDashboardComponent,
+    AdminHomeComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpModule,
-    RouterModule.forRoot(appRoutes),
-    FlashMessagesModule.forRoot()
+    FlashMessagesModule,
+    AppRoutingModule
   ],
-  providers: [ValidateService , AuthService, AuthGuard],
-  bootstrap: [AppComponent],
-
+  providers: [ValidateService, AuthenticationService, AuthGuard, AdminGuard],
+  bootstrap: [AppComponent]
 })
+
 export class AppModule { }
