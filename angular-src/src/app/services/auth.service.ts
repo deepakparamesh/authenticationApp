@@ -38,6 +38,8 @@ export class AuthenticationService {
     headers.append('Content-Type', 'application/json');
     return this.http.post('http://localhost:5000/admins/setting/:_id', adminSetting, {headers : headers})
       .map(res => res.json());
+    console.log(result);
+    return result; 
   }
 
   getProfile(){

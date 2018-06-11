@@ -22,6 +22,19 @@ import { AdminSettingsComponent } from './component-admin/admin-settings/admin-s
 import { AdminNavbarComponent } from './component-admin/admin-navbar/admin-navbar.component';
 import { AdminDashboardComponent } from './component-admin/admin-dashboard/admin-dashboard.component';
 import { AdminHomeComponent } from './component-admin/admin-home/admin-home.component';
+import { Angular2SocialLoginModule } from "angular2-social-login";
+
+let providers = {
+  "google" : {
+    "clientId" : "913299848250-nk9962ssotgogd85558q00mq75qlrbov.apps.googleusercontent.com"
+  },
+  "facebook" : {
+    "clientId" : ""
+  },
+  "linkedin" : {
+    "clientId" : ""
+  }
+};
 
 @NgModule({
   declarations: [
