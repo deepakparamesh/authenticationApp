@@ -1,22 +1,24 @@
 {
-  "name": "mean-authentication",
+  "name": "pal",
   "version": "1.0.0",
-  "description": "A simple MEAN stack authentication application for Open source",
+  "description": "Platform for adaptive learning",
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node app"
+    "start": "nodemon app"
   },
   "dependencies": {
-    "express": "*",
-    "mongoose": "*",
     "bcryptjs": "*",
-    "cors": "*",
-    "jsonwebtoken": "*",
     "body-parser": "*",
+    "cors": "*",
+    "express": "*",
+    "jsonwebtoken": "*",
+    "mongoose": "*",
+    "nodemon": "^1.17.3",
     "passport": "*",
+    "passport-google-oauth20": "^1.0.0",
     "passport-jwt": "*"
   },
-  "author": "",
+  "author": "Sify",
   "license": "ISC"
 }

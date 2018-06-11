@@ -1,0 +1,28 @@
+<app-admin-navbar></app-admin-navbar>
+
+<div class="container">
+
+<h3 class="pt-5">Welcome to Admin Setting</h3>
+    <h5 class="card-title">Configure Authentication Setting</h5>
+
+    <form (submit)="onSet()">
+      <div class="form-group">
+        <label>Authentication Setting</label>
+        <div class="form-control">
+          <label class="radio-inline">
+          <input type="radio" value="local" name="authSetting" [(ngModel)]="authSetting">
+          Local Authentication  
+          </label>
+          <label class="radio-inline">
+          <input type="radio" value="oAuth" name="authSetting" [(ngModel)]="authSetting">
+              OAuthentication   
+          </label>
+          <label class="radio-inline">
+              <input type="radio" value="thirdParty" name="authSetting" [(ngModel)]="authSetting">
+                Third Party   
+          </label>
+        </div>
+      </div>
+      <button type="submit" class="btn btn-primary">Set</button>
+    </form>
+</div>

@@ -1,15 +1,15 @@
 const express = require('express');
 const router = express.Router();
 const passport = require('passport');
+const database = require('../config/database');
 const jwt = require('jsonwebtoken');
-const config = require('../config/database');
 const User = require('../models/user');
+const Authenticate = require('../backendService/authenticate');
 
 //Register 
 router.post('/register', (req, res, next)=>{
     
     let newUser = new User({
-        name: req.body.name,
         email: req.body.email,
         password: req.body.password,
         provider: req.body.provider
@@ -17,52 +17,56 @@ router.post('/register', (req, res, next)=>{
 
     User.registerUser(newUser, (err, user)=>{
         if(err){
-            res.json({success: false, msg:'failed to register user'});
-        }else{
-            res.json({success: true, msg:'user Registered'});
+            res.json({success: false, msg: err });
+        }else {
+            res.json({success: true, msg:'user Registered'})
         }
-    })
+    });
+
 });
 
 
-//Authenticate
 router.post('/authenticate', (req, res, next)=>{
-    const username = req.body.username;
+    const email = req.body.email;
     const password = req.body.password;
 
-    User.getUserByUsername(username, (err, user)=>{
+    User.getUserByEmail(email, (err, email)=>{
         if(err) throw err;
-        if(!user){
-            return res.json({success: false, msg: 'User not found'});
+        if(!email){
+            return res.json({success: false, msg: 'Email not found'});
         }
 
-        User.comparePassword(password, user.password, (err, isMatch)=>{
+        User.comparePassword(password, email.password, (err, isMatch)=>{
             if(err) throw err;
             if(isMatch){
-                const token = jwt.sign({data: user}, config.secret,{
-                    expiresIn: 604800 // 1 week 
-                 });
+                const token = jwt.sign({data: email}, database.secret, {
+                    expiresIn : 604800 // 1 Week 
+                });
 
                 res.json({
                     success: true,
-                    token: 'JWT ' +token,
+                    token: 'JWT ' + token,
                     user: {
                         id: User._id,
-                        name: user.name,
-                        username: user.username,
-                        email: user.email
+                        email: email.email
                     }
                 });
-            }else{
-                return res.json({success: false, msg: 'Wrong Password'});
+            } else {
+                return res.json({success: false, msg: 'wrong Password'});
             }
         });
-
     })
 });
 
-//Profile 
-router.get('/profile', passport.authenticate('jwt', {session: false}) , (req, res, next)=>{
+router.get('/google', passport.authenticate('google', {
+    scope: ['profile']
+}));
+
+router.get('/google/redirect', (req, res)=>{
+    res.send('you reached the redirect URI');
+})
+
+router.get('/profile', passport.authenticate('jwt', {session: false}), (req, res, next)=>{
     res.json({user: req.user});
 });
 
